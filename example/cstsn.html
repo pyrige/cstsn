@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CoffeeScript Twitch Subscription Notifier</title>
+    <link href="reset.css" rel="stylesheet" type="text/css">
+    <link href="cstsn.css" rel="stylesheet" type="text/css">
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="cstsn.js"></script>
+    <script type="text/javascript">
+      function notify(name, months) {
+        function beforeAnim() {
+          $("#subscriber").text(name);
+          $("#fanfare").get(0).play();
+        }
+
+        $("#subnotifier").hide(0, beforeAnim).fadeIn(1000).delay(3000).fadeOut(1000).delay(1000);
+      }
+
+      $(function() {
+        startNotifier("twitch", notify);
+        $("#subnotifier").hide();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="subnotifier">
+      <div id="subscription">
+        <h1>Thank you for subscribing!</h1>
+        <h2 id="subscriber">Subscriber</h2>
+      </div>
+    </div>
+
+    <audio id="fanfare">
+      <source src="fanfare.wav">
+    </audio>
+  </body>
+</html>

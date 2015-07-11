@@ -1,0 +1,48 @@
+body { text-align: center; background-color: #00FF00;}
+
+#subnotifier
+{
+  display: inline-block;
+
+  background-color: #5282FF;
+  border-color: #5282FF;
+  border-radius: 0 0 10px 10px;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+}
+
+#subscription
+{
+  padding: 5px;
+
+  color: white;
+  text-align: center;
+  font-variant: small-caps;
+  text-transform: capitalize;
+
+  background-color: #180094;
+  border-color: #180094;
+  border-radius: 0 0 7px 7px;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+}
+
+#subscription h1
+{
+  font-size: 30px;
+}
+
+#subscription h2
+{
+  display: inline-block;
+  margin: 5px;
+
+  font-size: 60px;
+  font-weight: bold;
+  text-shadow: 0px 0px 10px black;
+
+  background-color: #F15A24;
+  border: 5px solid #F15A24;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px black;
+}
