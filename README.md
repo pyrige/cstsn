@@ -13,5 +13,5 @@ In case you want to try it out on another channel, simply change the line `start
 - [Fanfare by bone666138](https://www.freesound.org/people/bone666138/sounds/198874/) ([CC BY 3.0](https://creativecommons.org/licenses/by/3.0/))
 
 ## License ##
-Copyright (c) 2015 Twisted Pear (tp at pump19 dot eu).  
+Copyright (c) 2015-2017 Twisted Pear (tp at pump19 dot eu).  
 See the file LICENSE for copying permission.

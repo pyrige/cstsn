@@ -6,7 +6,7 @@ Released under the MIT License
 MAGICNICK = "justinfan427138773870"
 ENDOFMOTD = /^:tmi.twitch.tv 376 /
 PINGREGEX = /^PING :tmi.twitch.tv$/
-SUBNOTIFY = /^:twitchnotify!twitchnotify@twitchnotify.tmi.twitch.tv PRIVMSG #\w+ :(\w+) (?:just )?subscribed(?: for (\d+) months in a row)?!$/
+SUBNOTIFY = /;display-name=(\w+);.*;msg-id=(?:re)?sub;msg-param-months=(\d+);/
 
 info = (msg) -> console.log "[INFO] #{ msg }"
 
@@ -15,13 +15,18 @@ class Notifier
 
   start: ->
     info "Connecting..."
-    @ws = new WebSocket "ws://irc.twitch.tv", "irc"
+    @ws = new WebSocket "ws://irc-ws.chat.twitch.tv", "irc"
     @ws.onopen = @onOpen
     @ws.onmessage = @onMessage
 
   registerUser: ->
     info "Registering user..."
     @ws.send "NICK #{ MAGICNICK }\r\n"
+
+  requestCaps: ->
+    info "Requesting extra capabilities..."
+    @ws.send "CAP REQ :twitch.tv/tags\r\n"
+    @ws.send "CAP REQ :twitch.tv/commands\r\n"
 
   joinChannel: ->
     info "Joining ##{ @channel }..."
@@ -30,16 +35,19 @@ class Notifier
   onOpen: (evt) =>
     info "Successfully opened connection."
     do @registerUser
+    do @requestCaps
 
   onMessage: (evt) =>
-    message = evt.data.trim()
-    switch
-      when PINGREGEX.test message then do @onPing
-      when ENDOFMOTD.test message then do @joinChannel
-      when SUBNOTIFY.test message
-        match = SUBNOTIFY.exec message
-        months = parseInt match[2] or 1
-        @subCallback match[1], months
+    data = evt.data.trim()
+    for message in data.split("\r\n")
+      switch
+        when PINGREGEX.test message then do @onPing
+        when ENDOFMOTD.test message then do @joinChannel
+        when /USERNOTICE/.test message
+          match = SUBNOTIFY.exec message
+          if match?
+            months = parseInt match[2]
+            @subCallback match[1], months
 
   onPing: =>
     info "Responding to PING message..."
